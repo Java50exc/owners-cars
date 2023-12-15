@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import telran.cars.dto.CarDto;
+import telran.cars.dto.PersonDto;
 import telran.cars.service.CarsService;
 @WebMvcTest //inserting into Application Context Mock WEB server instead of real WebServer
 class CarsControllerTest {
@@ -27,6 +28,7 @@ class CarsControllerTest {
 	CarDto carDto1 = new CarDto("car123", "mode123");
 	@Autowired //for injection of ObjectMapper from Application context
 	ObjectMapper mapper; //object for getting JSON from object and object from JSON
+	private PersonDto personDto = new PersonDto(123, "Vasya", "2000-10-10", "vasya@gmail");
 
 	@Test
 	void testAddCar() throws Exception {
@@ -40,8 +42,13 @@ class CarsControllerTest {
 	}
 
 	@Test
-	void testAddPerson() {
-		//TODO
+	void testAddPerson() throws Exception {
+		when(carsService.addPerson(personDto)).thenReturn(personDto);
+		String jsonPersonDto = mapper.writeValueAsString(personDto); //conversion from carDto object to string JSON
+		String actualJSON = mockMvc.perform(post("http://localhost:8080/cars/person").contentType(MediaType.APPLICATION_JSON)
+				.content(jsonPersonDto)).andExpect(status().isOk()).andReturn().getResponse()
+		.getContentAsString();
+		assertEquals(jsonPersonDto, actualJSON );
 	}
 
 	@Test
