@@ -27,7 +27,10 @@ import telran.cars.service.CarsService;
 class CarsControllerTest {
 	private static final long PERSON_ID = 123l;
 	private static final String CAR_NUMBER = "123-01-002";
-	private static final String PERSON_NOT_FOUND_MESSAGE = "person not found message";
+	private static final String PERSON_NOT_FOUND_MESSAGE = "person not found";
+	private static final String PERSON_ALREADY_EXISTS_MESSAGE = "person already exists";
+	private static final String CAR_ALREADY_EXISTS_MESSAGE = "car already exists";
+	private static final String CAR_NOT_FOUND_MESSAGE = "car not found";
 	@MockBean //inserting into Application Context Mock instead of real Service implementation
 	CarsService carsService;
 	@Autowired //for injection of MockMvc from Application Context
@@ -130,6 +133,83 @@ class CarsControllerTest {
 				.andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
 		assertEquals(PERSON_NOT_FOUND_MESSAGE, actualJSON);
 		
+	}
+	@Test
+	void testAddPersonAlreadyExists() throws Exception {
+		when(carsService.addPerson(personDto)).thenThrow(new IllegalStateException(PERSON_ALREADY_EXISTS_MESSAGE));
+		String jsonPersonDto = mapper.writeValueAsString(personDto); //conversion from carDto object to string JSON
+		String response = mockMvc.perform(post("http://localhost:8080/cars/person").contentType(MediaType.APPLICATION_JSON)
+				.content(jsonPersonDto)).andExpect(status().isBadRequest()).andReturn().getResponse()
+		.getContentAsString();
+		assertEquals(PERSON_ALREADY_EXISTS_MESSAGE, response);
+	}
+	@Test
+	void testAddCarAlreadyExists() throws Exception {
+		when(carsService.addCar(carDto)).thenThrow(new IllegalStateException(CAR_ALREADY_EXISTS_MESSAGE));
+		String jsonCarDto = mapper.writeValueAsString(carDto); //conversion from carDto object to string JSON
+		String response = mockMvc.perform(post("http://localhost:8080/cars").contentType(MediaType.APPLICATION_JSON)
+				.content(jsonCarDto)).andExpect(status().isBadRequest()).andReturn().getResponse()
+		.getContentAsString();
+		assertEquals(CAR_ALREADY_EXISTS_MESSAGE, response );
+		
+	}
+
+	
+
+	@Test
+	void testUpdatePersonNotFound() throws Exception{
+		when(carsService.updatePerson(personDtoUpdated)).thenThrow(new NotFoundException(PERSON_NOT_FOUND_MESSAGE));
+		String jsonPersonDtoUpdated = mapper.writeValueAsString(personDtoUpdated); //conversion from carDto object to string JSON
+		String response = mockMvc.perform(put("http://localhost:8080/cars/person").contentType(MediaType.APPLICATION_JSON)
+				.content(jsonPersonDtoUpdated)).andExpect(status().isNotFound()).andReturn().getResponse()
+		.getContentAsString();
+		assertEquals(PERSON_NOT_FOUND_MESSAGE, response );
+	}
+
+	@Test
+	void testPurchaseCarNotFound() throws Exception{
+		testPurchaseNotFound(CAR_NOT_FOUND_MESSAGE);
+	}
+	@Test
+	void testPurchasePersonNotFound() throws Exception{
+		testPurchaseNotFound(PERSON_NOT_FOUND_MESSAGE);
+	}
+
+	private void testPurchaseNotFound(String message)
+			throws JsonProcessingException, UnsupportedEncodingException, Exception {
+		when(carsService.purchase(tradeDeal)).thenThrow(new NotFoundException(message));
+		String jsonTradeDeal = mapper.writeValueAsString(tradeDeal);
+		String response = mockMvc.perform(put("http://localhost:8080/cars/trade")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonTradeDeal))
+				.andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+		assertEquals(message, response);
+	}
+
+	
+
+	@Test
+	void testDeleteCarNotFound() throws Exception {
+		when(carsService.deleteCar(CAR_NUMBER)).thenThrow(new NotFoundException(CAR_NOT_FOUND_MESSAGE));
+		String response = mockMvc.perform(delete("http://localhost:8080/cars/" + CAR_NUMBER))
+				.andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+		assertEquals(CAR_NOT_FOUND_MESSAGE, response);
+	}
+
+	@Test
+	void testGetOwnerCarsPersonNotFound() throws Exception {
+		
+		when(carsService.getOwnerCars(PERSON_ID)).thenThrow(new NotFoundException(PERSON_NOT_FOUND_MESSAGE));
+		String response = mockMvc.perform(get("http://localhost:8080/cars/person/" + PERSON_ID))
+				.andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+		assertEquals(PERSON_NOT_FOUND_MESSAGE, response);
+	}
+
+	@Test
+	void testGetCarOwnerCarNotFound() throws Exception{
+		when(carsService.getCarOwner(CAR_NUMBER)).thenThrow(new NotFoundException(CAR_NOT_FOUND_MESSAGE));
+		String response = mockMvc.perform(get("http://localhost:8080/cars/" + CAR_NUMBER)).andExpect(status().isNotFound())
+				.andReturn().getResponse().getContentAsString();
+		assertEquals(CAR_NOT_FOUND_MESSAGE, response);
 	}
 
 }
