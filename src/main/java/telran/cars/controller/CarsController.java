@@ -75,7 +75,7 @@ public class CarsController {
 			log.warn("getOwnerCars: no cars for person with id {}", id );
 		}
 		else {
-			log.trace("getOwnerCars: cars of person with id {}", id);
+			log.trace("getOwnerCars: cars of person with id {} {}", id, res);
 		}
 		return res ;
 	}
