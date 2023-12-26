@@ -2,12 +2,17 @@ package telran.cars;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 import telran.cars.dto.*;
+import telran.cars.exceptions.NotFoundException;
 import telran.cars.service.CarsService;
 
 
@@ -25,59 +30,112 @@ class CarsServiceTest {
 	private static final String BIRTH_DATE_2 = "2000-10-10";
 	private static final String EMAIL2 = "name2@gmail.com";
 	private static final Long PERSON_ID_NOT_EXISTS = 1111111111L;
+	private static final  String CAR_NUMBER_3 = "333-33-333";
+	private static final  String NEW_EMAIL = "name1@tel-ran.co.il";
 	CarDto car1 = new CarDto(CAR_NUMBER_1, MODEL);
-	CarDto car2 = new CarDto(CAR_NUMBER_1, MODEL);
+	CarDto car2 = new CarDto(CAR_NUMBER_2, MODEL);
+	CarDto car3 = new CarDto(CAR_NUMBER_3, MODEL);
 	PersonDto personDto = new PersonDto(PERSON_ID_NOT_EXISTS, NAME1, BIRTH_DATE_1, EMAIL1);
 	PersonDto personDto1 = new PersonDto(PERSON_ID_1, NAME1, BIRTH_DATE_1, EMAIL1);
+	PersonDto personDto2 = new PersonDto(PERSON_ID_2, NAME2, BIRTH_DATE_2, EMAIL2);
 	@Autowired
+	ApplicationContext ctx;
 	CarsService carsService;
 
 	@BeforeEach
 	void setUp() {
-		carsService.addCar(car1);
-		carsService.addCar(car2);
-		carsService.addPerson(personDto1);
-		carsService.addPerson(new PersonDto(PERSON_ID_2, NAME2, BIRTH_DATE_2, EMAIL2));
-		carsService.purchase(new TradeDealDto(CAR_NUMBER_1, PERSON_ID_1));
-		carsService.purchase(new TradeDealDto(CAR_NUMBER_2, PERSON_ID_2));
+		
+			carsService = ctx.getBean("carsService", CarsService.class);
+			carsService.addCar(car1);
+			carsService.addCar(car2);
+			carsService.addPerson(personDto1);
+			carsService.addPerson(personDto2);
+			carsService.purchase(new TradeDealDto(CAR_NUMBER_1, PERSON_ID_1));
+			carsService.purchase(new TradeDealDto(CAR_NUMBER_2, PERSON_ID_2));
+		
 		
 	}
+	
+	
 
 	@Test
 	void testAddPerson() {
 		assertEquals(personDto, carsService.addPerson(personDto));
 		assertThrowsExactly(IllegalStateException.class,
 				()->carsService.addPerson(personDto1));
+		List<CarDto> cars = carsService.getOwnerCars(personDto.id());
+		assertTrue(cars.isEmpty());
+		assertEquals(personDto, carsService.deletePerson(personDto.id()));
 	}
 
 	@Test
 	void testAddCar() {
-		//TODO
+		assertEquals(car3, carsService.addCar(car3));
+		assertThrowsExactly(IllegalStateException.class,
+				()->carsService.addCar(car1));
+		PersonDto person = carsService.getCarOwner(CAR_NUMBER_3);
+		assertNull(person);
 	}
 
 	@Test
 	void testUpdatePerson() {
-		//TODO
+		PersonDto personUpdated = new PersonDto(PERSON_ID_1, NAME1, BIRTH_DATE_1, NEW_EMAIL);
+		assertEquals(personUpdated, carsService.updatePerson(personUpdated));
+		assertEquals(personUpdated, carsService.getCarOwner(CAR_NUMBER_1));
+		assertThrowsExactly(NotFoundException.class,
+				() -> carsService.updatePerson(personDto));
 	}
 
 	@Test
 	void testDeletePerson() {
-		//TODO
+		List<CarDto> cars = carsService.getOwnerCars(PERSON_ID_1);
+		assertEquals(personDto1, carsService.deletePerson(PERSON_ID_1));
+		assertThrowsExactly(NotFoundException.class, () -> carsService.deletePerson(PERSON_ID_1));
+		cars.forEach(c -> assertNull(carsService.getCarOwner(c.number())));
 	}
 
 	@Test
 	void testDeleteCar() {
-		//TODO
+		Long id = carsService.getCarOwner(CAR_NUMBER_1).id();
+		assertEquals(car1, carsService.deleteCar(CAR_NUMBER_1));
+		assertThrowsExactly(NotFoundException.class, () -> carsService.deleteCar(CAR_NUMBER_1));
+		assertFalse(carsService.getOwnerCars(id).contains(car1));
 	}
 
 	@Test
-	void testPurchase() {
-		//TODO
+	void testPurchaseNewCarOwner() {
+		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1, PERSON_ID_2);
+		assertEquals(tradeDeal, carsService.purchase(tradeDeal));
+		assertEquals(personDto2, carsService.getCarOwner(CAR_NUMBER_1));
+		assertFalse(carsService.getOwnerCars(PERSON_ID_1).contains(car1));
+		assertTrue(carsService.getOwnerCars(PERSON_ID_2).contains(car1));
+		
+	}
+	@Test
+	void testPurchaseNotFound() {
+		TradeDealDto tradeDealCarNotFound = new TradeDealDto(CAR_NUMBER_3, PERSON_ID_1);
+		TradeDealDto tradeDealOwnerNotFound = new TradeDealDto(CAR_NUMBER_1,
+				PERSON_ID_NOT_EXISTS);
+		assertThrowsExactly(NotFoundException.class, () -> carsService.purchase(tradeDealOwnerNotFound));
+		assertThrowsExactly(NotFoundException.class, () -> carsService.purchase(tradeDealCarNotFound));
+		
+	}
+	@Test
+	void testPurchaseNoCarOwner() {
+		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1,null);
+		assertEquals(tradeDeal, carsService.purchase(tradeDeal));
+		assertFalse(carsService.getOwnerCars(PERSON_ID_1).contains(car1));
+		assertNull(carsService.getCarOwner(CAR_NUMBER_1));
+	}
+	@Test
+	void testPurchaseSameOwner() {
+		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1,PERSON_ID_1);
+		assertThrowsExactly(IllegalStateException.class, () -> carsService.purchase(tradeDeal));
 	}
 
 	@Test
 	void testGetOwnerCars() {
-		//TODO
+		
 	}
 
 	@Test
