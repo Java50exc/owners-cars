@@ -15,6 +15,7 @@ import telran.cars.service.model.*;
 public class CarsServiceImpl implements CarsService {
 HashMap<Long, CarOwner> owners = new HashMap<>();
 HashMap<String, Car> cars = new HashMap<>();
+HashMap<String, Integer> modelsPurchaseAmounts = new HashMap<>();
 	@Override
 	public PersonDto addPerson(PersonDto personDto) {
 		long id = personDto.id();
@@ -114,6 +115,7 @@ HashMap<String, Car> cars = new HashMap<>();
 			log.debug("no new owner");
 		}
 		car.setOwner(carOwner);
+		modelsPurchaseAmounts.merge(car.getModel(), 1, Integer::sum);
 		return tradeDeal;
 	}
 
@@ -150,8 +152,12 @@ HashMap<String, Car> cars = new HashMap<>();
 
 	@Override
 	public List<String> mostPopularModels() {
-		// TODO Auto-generated method stub
-		return null;
+		int maxAmount = Collections.max(modelsPurchaseAmounts.values());
+		log.trace("map of amounts {}", modelsPurchaseAmounts);
+		log.debug("maximal amount of purchases is {}", maxAmount);
+		return modelsPurchaseAmounts.entrySet().stream()
+				.filter(e -> e.getValue() == maxAmount)
+				.map(e -> e.getKey()).toList();
 	}
 
 }

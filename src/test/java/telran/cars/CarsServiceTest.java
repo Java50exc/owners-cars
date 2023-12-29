@@ -2,10 +2,10 @@ package telran.cars;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,11 +166,12 @@ class CarsServiceTest {
 		carsService.purchase(new TradeDealDto(CAR_NUMBER_4, PERSON_ID_2));
 		carsService.purchase(new TradeDealDto(CAR_NUMBER_5, PERSON_ID_2));
 		List<String> mostPopularModels = carsService.mostPopularModels();
-		Collections.sort(mostPopularModels);
+		String[] actual = mostPopularModels.toArray(String[]::new);
+		Arrays.sort(actual);
 		String[] expected = {
 				MODEL1, MODEL2
 		};
-		assertArrayEquals(expected, mostPopularModels.toArray(String[]::new));
+		assertArrayEquals(expected, actual);
 		
 	}
 
