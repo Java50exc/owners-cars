@@ -45,9 +45,9 @@ class CarsControllerTest {
 	CarsService carsService;
 	@Autowired //for injection of MockMvc from Application Context
 	MockMvc mockMvc;
-	CarDto carDto = new CarDto(CAR_NUMBER, "model");
-	CarDto carDto1 = new CarDto("car123", "mode123");
-	CarDto carDtoMissingFields = new CarDto(null, null);
+	CarDto carDto = new CarDto(CAR_NUMBER, "model", 2000, null, null, null);
+	CarDto carDto1 = new CarDto("car123", "mode123", 2000, null, null, null);
+	CarDto carDtoMissingFields = new CarDto(null, null, 2000, null, null, null);
 	
 	@Autowired //for injection of ObjectMapper from Application context
 	ObjectMapper mapper; //object for getting JSON from object and object from JSON
@@ -57,12 +57,12 @@ class CarsControllerTest {
 	PersonDto personNoId = new PersonDto(null, "Vasya", "2000-10-10", EMAIL_ADDRESS);
 	PersonDto personWrongId = new PersonDto(100000000000l, "Vasya", "2000-10-10", EMAIL_ADDRESS);
 	PersonDto personWrongBirthdate = new PersonDto(PERSON_ID, "Vasya", "2000-10", EMAIL_ADDRESS);
-	TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER, PERSON_ID);
+	TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER, PERSON_ID, null);
 	PersonDtoIdString personDtoWrongIdType = new PersonDtoIdString("abc", "Vasya", "2000-10-10", EMAIL_ADDRESS);
 	PersonDto personAllFieldsMissing = new PersonDto(null, null, null, null);
-	TradeDealDto tradeDealWrongCarNumber = new TradeDealDto(WRONG_CAR_NUMBER, PERSON_ID);
-	TradeDealDto tradeDealWrongId = new TradeDealDto(CAR_NUMBER, -10l);
-	TradeDealDto tradeDealAllFieldsMissing = new TradeDealDto(null,null);
+	TradeDealDto tradeDealWrongCarNumber = new TradeDealDto(WRONG_CAR_NUMBER, PERSON_ID, null);
+	TradeDealDto tradeDealWrongId = new TradeDealDto(CAR_NUMBER, -10l, null);
+	TradeDealDto tradeDealAllFieldsMissing = new TradeDealDto(null,null,null);
 	private String[] expectedCarMissingFieldsMessages = {
 			MISSING_CAR_MODEL_MESSAGE,
 			MISSING_CAR_NUMBER_MESSAGE

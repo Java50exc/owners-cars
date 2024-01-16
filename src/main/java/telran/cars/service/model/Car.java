@@ -1,12 +1,16 @@
 package telran.cars.service.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import telran.cars.dto.CarDto;
 import telran.cars.dto.CarState;
 import jakarta.persistence.*;
 @Entity
 @Getter
 @Table(name="cars")
+@AllArgsConstructor(access=AccessLevel.PRIVATE)
 public class Car {
 	@Id
 	String number;
@@ -16,10 +20,19 @@ public class Car {
 	Model model;
 	@ManyToOne
 	@JoinColumn(name="owner_id", nullable=true)
+	@Setter
 	CarOwner carOwner;
 	String color;
-	int kilometers;
+	@Setter
+	Integer kilometers;
 	@Enumerated(EnumType.STRING) // value in the table will be a string (by default a number)
 	CarState state;
+	public static Car of(CarDto carDto) {
+		return new Car(carDto.number(), null, null, carDto.color(), carDto.kilometers(), carDto.state());
+	}
+	public CarDto build() {
+		return new CarDto(number, model.modelYear.getName(), model.modelYear.getYear(), color, kilometers, state);
+	}
+	
 	
 }
