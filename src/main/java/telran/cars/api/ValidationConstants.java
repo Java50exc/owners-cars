@@ -8,6 +8,7 @@ public interface ValidationConstants {
 	String WRONG_CAR_NUMBER_MESSAGE = "Incorrect Car Number";
 	String MISSING_CAR_MODEL_MESSAGE = "Missing car model";
 	String MISSING_PERSON_ID_MESSAGE = "Missing person ID";
+	String MISSING_PERCHASE_DATE_MESSAGE = "Missing person ID";
 	long MIN_PERSON_ID_VALUE = 100000l;
 	long MAX_PERSON_ID_VALUE = 999999l;
 	int MIN_MODEL_YEAR = 2000;

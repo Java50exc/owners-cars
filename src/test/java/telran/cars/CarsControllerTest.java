@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import telran.cars.dto.*;
 import static telran.cars.api.ValidationConstants.*;
 import telran.cars.exceptions.NotFoundException;
@@ -41,6 +43,7 @@ class CarsControllerTest {
 	private static final long WRONG_PERSON_ID = 123L;
 	static final String WRONG_PERSON_ID_TYPE = "abc";
 	static final String WRONG_CAR_NUMBER = "kikuk";
+	private static final  String PURCHASE_DATE = "2024-01-01";
 	@MockBean //inserting into Application Context Mock instead of real Service implementation
 	CarsService carsService;
 	@Autowired //for injection of MockMvc from Application Context
@@ -57,12 +60,11 @@ class CarsControllerTest {
 	PersonDto personNoId = new PersonDto(null, "Vasya", "2000-10-10", EMAIL_ADDRESS);
 	PersonDto personWrongId = new PersonDto(100000000000l, "Vasya", "2000-10-10", EMAIL_ADDRESS);
 	PersonDto personWrongBirthdate = new PersonDto(PERSON_ID, "Vasya", "2000-10", EMAIL_ADDRESS);
-	TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER, PERSON_ID, null);
+	TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER, PERSON_ID, PURCHASE_DATE);
 	PersonDtoIdString personDtoWrongIdType = new PersonDtoIdString("abc", "Vasya", "2000-10-10", EMAIL_ADDRESS);
 	PersonDto personAllFieldsMissing = new PersonDto(null, null, null, null);
-	TradeDealDto tradeDealWrongCarNumber = new TradeDealDto(WRONG_CAR_NUMBER, PERSON_ID, null);
-	TradeDealDto tradeDealWrongId = new TradeDealDto(CAR_NUMBER, -10l, null);
-	TradeDealDto tradeDealAllFieldsMissing = new TradeDealDto(null,null,null);
+	TradeDealDto tradeDealWrongCarNumber = new TradeDealDto(WRONG_CAR_NUMBER, PERSON_ID, PURCHASE_DATE);
+	TradeDealDto tradeDealWrongId = new TradeDealDto(CAR_NUMBER, -10l, PURCHASE_DATE);
 	private String[] expectedCarMissingFieldsMessages = {
 			MISSING_CAR_MODEL_MESSAGE,
 			MISSING_CAR_NUMBER_MESSAGE
