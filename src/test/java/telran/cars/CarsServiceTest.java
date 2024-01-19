@@ -204,7 +204,7 @@ class CarsServiceTest {
 		carsService.purchase(new TradeDealDto(CAR_NUMBER_3, PERSON_ID_1, null));
 		carsService.purchase(new TradeDealDto(CAR_NUMBER_4, PERSON_ID_2, null));
 		carsService.purchase(new TradeDealDto(CAR_NUMBER_5, PERSON_ID_2, null));
-		List<String> mostPopularModels = carsService.mostPopularModels();
+		List<String> mostPopularModels = carsService.mostSoldModelNames();
 		String[] actual = mostPopularModels.toArray(String[]::new);
 		Arrays.sort(actual);
 		String[] expected = {
@@ -212,6 +212,11 @@ class CarsServiceTest {
 		};
 		assertArrayEquals(expected, actual);
 		
+	}
+	@Test
+	void testMostPopularModelNames() {
+		//TODO
+		carsService.mostCarsOfModelName(2);
 	}
 
 

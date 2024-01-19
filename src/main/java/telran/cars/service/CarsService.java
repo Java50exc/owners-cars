@@ -14,5 +14,6 @@ CarDto deleteCar(String carNumber);
 TradeDealDto purchase(TradeDealDto tradeDeal);
 List<CarDto> getOwnerCars(long id);
 PersonDto getCarOwner(String carNumber);
-List<String> mostPopularModels();
+List<String> mostSoldModelNames();
+List<ModelNameAmount> mostCarsOfModelName(int nModels);//most popular model names according to number of cars
 }

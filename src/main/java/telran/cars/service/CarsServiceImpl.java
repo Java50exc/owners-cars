@@ -105,22 +105,32 @@ public class CarsServiceImpl implements CarsService {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<CarDto> getOwnerCars(long id) {
-		// Not Implemented yet
-		return null;
+		List<Car> cars = carRepo.findByCarOwnerId(id);
+		if (cars.isEmpty()) {
+			log.warn("person with id {} has no cars", id);
+		} else {
+			log.debug("person with id {} has {} cars {}",id, cars.size());
+		}
+		return cars.stream().map(Car::build).toList();
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public PersonDto getCarOwner(String carNumber) {
-		// Not Implemented yet
-		return null;
+		Car car = carRepo.findById(carNumber)
+				.orElseThrow(() -> new CarNotFoundException());
+		CarOwner carOwner = car.getCarOwner();
+		return carOwner != null ? carOwner.build() : null;
 	}
 
 	@Override
-	public List<String> mostPopularModels() {
-		// Not Implemented yet
+	public List<String> mostSoldModelNames() {
+		List<String> res = modelRepo.findMostSoldModelNames();
+		log.trace("most sold model names are {}", res);
 		
-		return null;
+		return res;
 	}
 
 	@Override
@@ -133,6 +143,14 @@ public class CarsServiceImpl implements CarsService {
 		Model model = Model.of(modelDto);
 		modelRepo.save(model);
 		return modelDto;
+	}
+
+	@Override
+	public List<ModelNameAmount> mostCarsOfModelName(int nModels) {
+		List<ModelNameAmount> res = modelRepo.findMostPopularModelNames(nModels);
+		res.forEach(mn -> log.debug("model name is {}, number of cars {}",
+				mn.getName(), mn.getAmount()));
+		return res;
 	}
 
 }
