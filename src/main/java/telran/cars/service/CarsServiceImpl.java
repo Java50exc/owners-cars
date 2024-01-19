@@ -146,11 +146,52 @@ public class CarsServiceImpl implements CarsService {
 	}
 
 	@Override
-	public List<ModelNameAmount> mostCarsOfModelName(int nModels) {
+	public List<ModelNameAmount> mostPopularModelNames(int nModels) {
 		List<ModelNameAmount> res = modelRepo.findMostPopularModelNames(nModels);
 		res.forEach(mn -> log.debug("model name is {}, number of cars {}",
 				mn.getName(), mn.getAmount()));
 		return res;
+	}
+
+	@Override
+	/**
+	 * returns count of trade deals for a given 'modelName'
+	 * at a given year / month
+	 * Try to apply only interface method name without @Query annotation
+	 */
+	public long countTradeDealAtMonthModel(String modelName, int month, int year) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	/**
+	 * returns list of a given number of most popular (most cars amount)
+	 *  model names and appropriate amounts of the cars,
+	 * owners of which have an age in a given range
+	 */
+	public List<ModelNameAmount> mostPopularModelNameByOwnerAges(int nModels, int ageFrom, int ageTo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	/**
+	 * returns one most popular color of a given model
+	 */
+	public String oneMostPopularColorModel(String model) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	/**
+	 * returns minimal values of engine power and capacity
+	 * of car owners having an age in a given range
+	 */
+	public EnginePowerCapacity minEnginePowerCapacityByOwnerAges(int ageFrom, int ageTo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

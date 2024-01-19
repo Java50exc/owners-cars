@@ -179,46 +179,58 @@ class CarsServiceTest {
 	}
 
 	@Test
-	@Disabled
+	/**
+	 * test of the method getOwnerCars
+	 * the method has been written at CW #64
+	 */
 	void testGetOwnerCars() {
-		List<CarDto> cars = carsService.getOwnerCars(PERSON_ID_1);
-		assertEquals(1, cars.size());
-		assertEquals(car1, cars.get(0));
-		assertThrowsExactly(NotFoundException.class,
-				() -> carsService.getOwnerCars(PERSON_ID_NOT_EXISTS));
+		//TODO
 	}
 
 	@Test
-	@Disabled
+	/**
+	 * test of the method getCarOwner
+	 * the method has been written at CW #64
+	 */
 	void testGetCarOwner() {
-		PersonDto ownerActual = carsService.getCarOwner(CAR_NUMBER_1);
-		assertEquals(personDto1, ownerActual);
-		assertThrowsExactly(NotFoundException.class, () -> carsService.getCarOwner(CAR_NUMBER_3));
+		//TODO
 	}
 	@Test
-	@Disabled
-	void testMostPopularModels() {
-		carsService.addCar(car3);
-		carsService.addCar(car4);
-		carsService.addCar(car5);
-		carsService.purchase(new TradeDealDto(CAR_NUMBER_3, PERSON_ID_1, null));
-		carsService.purchase(new TradeDealDto(CAR_NUMBER_4, PERSON_ID_2, null));
-		carsService.purchase(new TradeDealDto(CAR_NUMBER_5, PERSON_ID_2, null));
-		List<String> mostPopularModels = carsService.mostSoldModelNames();
-		String[] actual = mostPopularModels.toArray(String[]::new);
-		Arrays.sort(actual);
-		String[] expected = {
-				MODEL1, MODEL2
-		};
-		assertArrayEquals(expected, actual);
+	/**
+	 * test of the method mostSoldModelNames
+	 * the method has been written at CW #64
+	 */
+	void testMostSoldModelNames() {
+		//TODO
 		
 	}
 	@Test
+	/**
+	 * test of the method mostPopularModelNames
+	 * the method has been written at CW #64
+	 */
 	void testMostPopularModelNames() {
 		//TODO
-		carsService.mostCarsOfModelName(2);
+		
 	}
-
+	//tests for the methods of the HW #64
+	@Test
+	void testCountTradeDealAtMonthModel() {
+		//TODO
+	}
+	@Test
+	void testMostPopularModelNameByOwnerAges() {
+		//TODO
+	}
+	@Test
+	void testOneMostPopularColorModel() {
+		//TODO
+	}
+	@Test
+	void testMinEnginePowerCapacityByOwnerAges() {
+		//TODO
+	}
+	
 
 
 	
