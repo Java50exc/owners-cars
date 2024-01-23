@@ -21,4 +21,6 @@ long countTradeDealAtMonthModel(String modelName, int month, int year);
 List<ModelNameAmount> mostPopularModelNameByOwnerAges(int nModels, int ageFrom, int ageTo);
 String oneMostPopularColorModel(String model);
 EnginePowerCapacity minEnginePowerCapacityByOwnerAges(int ageFrom, int ageTo);
+//CW #65
+List<String> anyQuery(QueryDto queryDto);
 }

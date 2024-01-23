@@ -35,6 +35,7 @@ public class Car {
 	@Column(name="car_state")
 	CarState state;
 	
+	
 	public static Car of(CarDto carDto) {
 		return new Car(carDto.number(),  carDto.color(), carDto.kilometers(), carDto.state());
 	}
@@ -46,6 +47,10 @@ public class Car {
 		this.color = color;
 		this.kilometers = kilometers;
 		this.state = state;
+	}
+	@Override
+	public String toString() {
+		return "Car [number=" + number + ", color=" + color + ", kilometers=" + kilometers + ", state=" + state + "]";
 	}
 	
 	
