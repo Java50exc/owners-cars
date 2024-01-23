@@ -1,4 +1,4 @@
-package telran.cars.service;
+package telran.cars.exceptions;
 
 @SuppressWarnings("serial")
 public class ModelIllegalStateException extends IllegalStateException {
