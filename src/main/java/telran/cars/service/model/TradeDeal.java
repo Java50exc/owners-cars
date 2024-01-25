@@ -14,7 +14,7 @@ public class TradeDeal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="car_number", nullable = false)
 	@Setter
 	@OnDelete(action=OnDeleteAction.CASCADE)
