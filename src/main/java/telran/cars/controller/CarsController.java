@@ -21,7 +21,7 @@ public class CarsController {
 	@PostMapping("person")
 	PersonDto addPerson(@RequestBody PersonDto personDto) {
 		//TODO HW #53
-		return null;
+		return carsService.addPerson(personDto);
 	}
 	@PutMapping("person")
 	PersonDto updatePerson(@RequestBody PersonDto personDto) {
@@ -30,7 +30,7 @@ public class CarsController {
 	@PutMapping("trade")
 	TradeDealDto purchase(@RequestBody TradeDealDto tradeDealDto) {
 		//TODO HW #53
-		return null;
+		return carsService.purchase(tradeDealDto);
 	}
 	@DeleteMapping("person/{id}")
 	PersonDto deletePerson(@PathVariable(name="id") long id) {
@@ -39,7 +39,7 @@ public class CarsController {
 	@DeleteMapping("{carNumber}")
 	CarDto deleteCar(@PathVariable(name="carNumber") String carNumber) {
 		//TODO HW #53
-		return null;
+		return carsService.deleteCar(carNumber);
 		
 	}
 	@GetMapping("person/{id}")
