@@ -1,0 +1,94 @@
+2024-03-02T18:05:20.932+02:00  INFO 13900 --- [main] telran.cars.CarsControllerTest           : Starting CarsControllerTest using Java 17.0.9 with PID 13900 (started by ania5 in E:\TR50exc\owners-cars)
+2024-03-02T18:05:20.933+02:00 DEBUG 13900 --- [main] telran.cars.CarsControllerTest           : Running with Spring Boot v3.2.0, Spring v6.1.1
+2024-03-02T18:05:20.934+02:00  INFO 13900 --- [main] telran.cars.CarsControllerTest           : No active profile set, falling back to 1 default profile: "default"
+2024-03-02T18:05:23.208+02:00  INFO 13900 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-03-02T18:05:23.208+02:00  INFO 13900 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-03-02T18:05:23.218+02:00  INFO 13900 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2024-03-02T18:05:23.263+02:00  INFO 13900 --- [main] telran.cars.CarsControllerTest           : Started CarsControllerTest in 2.789 seconds (process running for 3.976)
+2024-03-02T18:05:23.657+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : updatePerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@tel-ran.com]
+2024-03-02T18:05:23.675+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T18:05:23.739+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Person ID must be greater or equal 100000
+2024-03-02T18:05:23.753+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : purchase: received trade deal data: TradeDealDto[carNumber=123-01-002, personId=123000]
+2024-03-02T18:05:23.787+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Missing car model;Missing car number
+2024-03-02T18:05:23.811+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : delete person: person with ID 123000
+2024-03-02T18:05:23.812+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T18:05:23.821+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : purchase: received trade deal data: TradeDealDto[carNumber=123-01-002, personId=123000]
+2024-03-02T18:05:23.823+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : car not found
+2024-03-02T18:05:23.833+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Incorrect Car Number
+2024-03-02T18:05:23.842+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Wrong date format, must be YYYY-MM-dd
+2024-03-02T18:05:23.850+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Wrong email format
+2024-03-02T18:05:23.869+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Incorrect Car Number
+2024-03-02T18:05:23.880+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : updatePerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@tel-ran.com]
+2024-03-02T18:05:23.891+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Person ID must be greater or equal 100000
+2024-03-02T18:05:23.898+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : delete car: car with number 123-01-002
+2024-03-02T18:05:23.900+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : car not found
+2024-03-02T18:05:23.910+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : delete person: person with ID 123000
+2024-03-02T18:05:23.918+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : delete car: car with number 123-01-002
+2024-03-02T18:05:23.932+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : addPerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@gmail.com]
+2024-03-02T18:05:23.942+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : getCarOwner: received car number 123-01-002
+2024-03-02T18:05:23.943+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : car not found
+2024-03-02T18:05:23.952+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : addPerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@gmail.com]
+2024-03-02T18:05:23.954+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : person already exists
+2024-03-02T18:05:23.962+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Missing person ID;Missing person name;Missing email address;Missing person's birth date
+2024-03-02T18:05:23.972+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : addCar: received car data: CarDto[number=123-01-002, model=model]
+2024-03-02T18:05:23.975+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : car already exists
+2024-03-02T18:05:23.991+02:00 TRACE 13900 --- [main] telran.cars.controller.CarsController    : getOwnerCars: cars of person with id 123000 [CarDto[number=123-01-002, model=model], CarDto[number=car123, model=mode123]]
+2024-03-02T18:05:24.005+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T18:05:24.015+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : addCar: received car data: CarDto[number=123-01-002, model=model]
+2024-03-02T18:05:24.026+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : URL parameter has type mismatch
+2024-03-02T18:05:24.040+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : JSON contains field with type mismatch
+2024-03-02T18:05:24.050+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : getCarOwner: received car number 123-01-002
+2024-03-02T18:05:24.059+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : Person ID must be less or equal 999999
+2024-03-02T18:05:24.068+02:00 DEBUG 13900 --- [main] telran.cars.controller.CarsController    : purchase: received trade deal data: TradeDealDto[carNumber=123-01-002, personId=123000]
+2024-03-02T18:05:24.070+02:00 ERROR 13900 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T18:07:54.070+02:00  INFO 9752 --- [main] telran.cars.CarsControllerTest           : Starting CarsControllerTest using Java 17.0.9 with PID 9752 (started by ania5 in E:\TR50exc\owners-cars)
+2024-03-02T18:07:54.071+02:00 DEBUG 9752 --- [main] telran.cars.CarsControllerTest           : Running with Spring Boot v3.2.0, Spring v6.1.1
+2024-03-02T18:07:54.073+02:00  INFO 9752 --- [main] telran.cars.CarsControllerTest           : No active profile set, falling back to 1 default profile: "default"
+2024-03-02T18:07:56.354+02:00  INFO 9752 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-03-02T18:07:56.354+02:00  INFO 9752 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-03-02T18:07:56.357+02:00  INFO 9752 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2024-03-02T18:07:56.401+02:00  INFO 9752 --- [main] telran.cars.CarsControllerTest           : Started CarsControllerTest in 2.813 seconds (process running for 3.974)
+2024-03-02T18:07:56.795+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : updatePerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@tel-ran.com]
+2024-03-02T18:07:56.813+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T18:07:56.870+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Person ID must be greater or equal 100000
+2024-03-02T18:07:56.883+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : purchase: received trade deal data: TradeDealDto[carNumber=123-01-002, personId=123000]
+2024-03-02T18:07:56.918+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Missing car model;Missing car number
+2024-03-02T18:07:56.945+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : delete person: person with ID 123000
+2024-03-02T18:07:56.947+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T18:07:56.957+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : purchase: received trade deal data: TradeDealDto[carNumber=123-01-002, personId=123000]
+2024-03-02T18:07:56.959+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : car not found
+2024-03-02T18:07:56.968+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Incorrect Car Number
+2024-03-02T18:07:56.977+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Wrong date format, must be YYYY-MM-dd
+2024-03-02T18:07:56.984+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Wrong email format
+2024-03-02T18:07:56.999+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Incorrect Car Number
+2024-03-02T18:07:57.008+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : updatePerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@tel-ran.com]
+2024-03-02T18:07:57.021+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Person ID must be greater or equal 100000
+2024-03-02T18:07:57.027+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : delete car: car with number 123-01-002
+2024-03-02T18:07:57.029+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : car not found
+2024-03-02T18:07:57.037+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : delete person: person with ID 123000
+2024-03-02T18:07:57.044+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : delete car: car with number 123-01-002
+2024-03-02T18:07:57.053+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : addPerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@gmail.com]
+2024-03-02T18:07:57.070+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : getCarOwner: received car number 123-01-002
+2024-03-02T18:07:57.072+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : car not found
+2024-03-02T18:07:57.086+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : addPerson: received personData data: PersonDto[id=123000, name=Vasya, birthDate=2000-10-10, email=vasya@gmail.com]
+2024-03-02T18:07:57.088+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : person already exists
+2024-03-02T18:07:57.100+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Missing email address;Missing person's birth date;Missing person name;Missing person ID
+2024-03-02T18:07:57.110+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : addCar: received car data: CarDto[number=123-01-002, model=model]
+2024-03-02T18:07:57.113+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : car already exists
+2024-03-02T18:07:57.138+02:00 TRACE 9752 --- [main] telran.cars.controller.CarsController    : getOwnerCars: cars of person with id 123000 [CarDto[number=123-01-002, model=model], CarDto[number=car123, model=mode123]]
+2024-03-02T18:07:57.154+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T18:07:57.163+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : addCar: received car data: CarDto[number=123-01-002, model=model]
+2024-03-02T18:07:57.174+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : URL parameter has type mismatch
+2024-03-02T18:07:57.186+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : JSON contains field with type mismatch
+2024-03-02T18:07:57.196+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : getCarOwner: received car number 123-01-002
+2024-03-02T18:07:57.206+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : Person ID must be less or equal 999999
+2024-03-02T18:07:57.217+02:00 DEBUG 9752 --- [main] telran.cars.controller.CarsController    : purchase: received trade deal data: TradeDealDto[carNumber=123-01-002, personId=123000]
+2024-03-02T18:07:57.218+02:00 ERROR 9752 --- [main] t.c.e.c.CarsExceptionsController         : person not found
+2024-03-02T19:59:40.998+02:00  INFO 9808 --- [main] telran.cars.CarsServiceTest              : Starting CarsServiceTest using Java 17.0.9 with PID 9808 (started by ania5 in E:\TR50exc\owners-cars)
+2024-03-02T19:59:41.000+02:00 DEBUG 9808 --- [main] telran.cars.CarsServiceTest              : Running with Spring Boot v3.2.0, Spring v6.1.1
+2024-03-02T19:59:41.001+02:00  INFO 9808 --- [main] telran.cars.CarsServiceTest              : No active profile set, falling back to 1 default profile: "default"
+2024-03-02T19:59:42.554+02:00  INFO 9808 --- [main] telran.cars.CarsServiceTest              : Started CarsServiceTest in 1.945 seconds (process running for 3.37)
+2024-03-02T20:00:59.654+02:00  INFO 4048 --- [main] telran.cars.CarsServiceTest              : Starting CarsServiceTest using Java 17.0.9 with PID 4048 (started by ania5 in E:\TR50exc\owners-cars)
+2024-03-02T20:00:59.656+02:00 DEBUG 4048 --- [main] telran.cars.CarsServiceTest              : Running with Spring Boot v3.2.0, Spring v6.1.1
+2024-03-02T20:00:59.657+02:00  INFO 4048 --- [main] telran.cars.CarsServiceTest              : No active profile set, falling back to 1 default profile: "default"
+2024-03-02T20:01:01.149+02:00  INFO 4048 --- [main] telran.cars.CarsServiceTest              : Started CarsServiceTest in 1.88 seconds (process running for 2.983)
