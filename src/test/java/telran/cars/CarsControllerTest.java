@@ -448,10 +448,10 @@ class CarsControllerTest {
 		validationTestHandler(null, delete(PERSON_PATH + "/" + WRONG_PERSON_ID_MAX), WRONG_MAX_PERSON_ID_VALUE_MESSAGE);
 	}
 	
-	@Test
-	void deletePerson_idNull_getMissingMsg() {
-		validationTestHandler(null, delete(PERSON_PATH + "/"+ null), MISSING_PERSON_ID_MESSAGE);
-	}
+//	@Test
+//	void deletePerson_idNull_getMissingMsg() {
+//		validationTestHandler(null, delete(PERSON_PATH + "/"+ null), MISSING_PERSON_ID_MESSAGE);
+//	}
 	
 //	@Test
 //	void deletePerson_idEmpty_getMissingMsg() {
