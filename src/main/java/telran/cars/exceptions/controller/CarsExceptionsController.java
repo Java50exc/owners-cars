@@ -25,15 +25,20 @@ ResponseEntity<String> badRequestHandler(IllegalStateException e) {
 }
 @ExceptionHandler(MethodArgumentNotValidException.class)
 ResponseEntity<String> methodArgumentNotValidHandler(MethodArgumentNotValidException e) {
-	String message = e.getAllErrors().stream().map(error -> error.getDefaultMessage())
+	
+	String message = e.getAllErrors().stream().map(error -> error.getDefaultMessage()).sorted()
 			.collect(Collectors.joining(";"));
 	return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 }
 @ExceptionHandler(HandlerMethodValidationException.class)
 ResponseEntity<String> methodValidationHandler(HandlerMethodValidationException e) {
+	
 	//TODO extract from the received exception object sensible message
 	//Fixing the code below
+	String message = e.getAllErrors().stream().map(error -> error.getDefaultMessage()).sorted()
+			.collect(Collectors.joining(";"));
+	return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	
-	return new ResponseEntity<>(ValidationConstants.WRONG_MIN_PERSON_ID_VALUE, HttpStatus.BAD_REQUEST);
+//	return new ResponseEntity<>(ValidationConstants.WRONG_MIN_PERSON_ID_VALUE_MESSAGE, HttpStatus.BAD_REQUEST);
 }
 }
