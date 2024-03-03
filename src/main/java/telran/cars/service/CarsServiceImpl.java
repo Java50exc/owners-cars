@@ -192,18 +192,15 @@ public class CarsServiceImpl implements CarsService {
 		} finally {
 			rLock.unlock();
 		}
-		HashMap<Integer, List<String>> modelsMap = new HashMap<Integer, List<String>>();
-
+		
+		rLock.lock();		
+		
+		TreeMap<Integer, List<String>> modelsMap = new TreeMap<Integer, List<String>>(Comparator.reverseOrder());
+		
 		groupingMap.entrySet().stream().forEach(e -> {
 			modelsMap.computeIfAbsent(e.getValue(), v -> new LinkedList<String>()).add(e.getKey());
 		});
-		int max = 0;
-		for (var entry : modelsMap.entrySet()) {
-			if (max <= entry.getKey()) {
-				max = entry.getKey();
-			}
-		}
-		var res = modelsMap.get(max);
+		var res = modelsMap.firstEntry().getValue();
 		log.debug("mostPopularModels: returned: {}", res);
 		return res;
 	}
