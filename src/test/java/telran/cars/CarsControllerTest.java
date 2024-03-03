@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,6 +150,16 @@ class CarsControllerTest {
 		when(carsService.getCarOwner(CAR_NUMBER)).thenReturn(personDto);
 		String jsonExpected = mapper.writeValueAsString(personDto);
 		String actualJSON = mockMvc.perform(get("http://localhost:8080/cars/" + CAR_NUMBER)).andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		assertEquals(jsonExpected, actualJSON);
+	}
+	
+	@Test
+	void testmostPopularModels() throws Exception{
+		List<String> list = List.of("model");
+		when(carsService.mostPopularModels()).thenReturn(list);
+		String jsonExpected = mapper.writeValueAsString(list);
+		String actualJSON = mockMvc.perform(get("http://localhost:8080/cars/models" )).andExpect(status().isOk())
 				.andReturn().getResponse().getContentAsString();
 		assertEquals(jsonExpected, actualJSON);
 	}

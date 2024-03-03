@@ -2,6 +2,8 @@ package telran.cars;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +20,9 @@ import telran.cars.service.CarsService;
 
 @SpringBootTest
 class CarsServiceTest {
-	private static final String MODEL = "model";
+	private static final String MODEL1 = "model1";
+	private static final String MODEL2 = "model2";
+	
 	private static final String CAR_NUMBER_1 = "111-11-111";
 	private static final String CAR_NUMBER_2 = "222-22-222";
 	private static final Long PERSON_ID_1 = 123l;
@@ -32,9 +36,9 @@ class CarsServiceTest {
 	private static final Long PERSON_ID_NOT_EXISTS = 1111111111L;
 	private static final  String CAR_NUMBER_3 = "333-33-333";
 	private static final  String NEW_EMAIL = "name1@tel-ran.co.il";
-	CarDto car1 = new CarDto(CAR_NUMBER_1, MODEL);
-	CarDto car2 = new CarDto(CAR_NUMBER_2, MODEL);
-	CarDto car3 = new CarDto(CAR_NUMBER_3, MODEL);
+	CarDto car1 = new CarDto(CAR_NUMBER_1, MODEL1);
+	CarDto car2 = new CarDto(CAR_NUMBER_2, MODEL2);
+	CarDto car3 = new CarDto(CAR_NUMBER_3, MODEL1);
 	PersonDto personDto = new PersonDto(PERSON_ID_NOT_EXISTS, NAME1, BIRTH_DATE_1, EMAIL1);
 	PersonDto personDto1 = new PersonDto(PERSON_ID_1, NAME1, BIRTH_DATE_1, EMAIL1);
 	PersonDto personDto2 = new PersonDto(PERSON_ID_2, NAME2, BIRTH_DATE_2, EMAIL2);
@@ -131,6 +135,21 @@ class CarsServiceTest {
 	void testPurchaseSameOwner() {
 		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1,PERSON_ID_1);
 		assertThrowsExactly(IllegalStateException.class, () -> carsService.purchase(tradeDeal));
+	}
+	
+	@Test
+	void testMostPopularModels_oneCar() {
+		List<String> list = List.of(MODEL1);
+		carsService.purchase(new TradeDealDto(CAR_NUMBER_1,PERSON_ID_2));
+		assertEquals(list, carsService.mostPopularModels());	
+	}
+	
+	@Test
+	void testMostPopularModels_fewCars() {
+		List<String> list = List.of(MODEL1, MODEL2);
+		var models = carsService.mostPopularModels();
+		models.sort(Comparator.naturalOrder());
+		assertEquals(list, models);	
 	}
 
 	@Test
