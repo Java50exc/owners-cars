@@ -187,19 +187,13 @@ public class CarsServiceImpl implements CarsService {
 		HashMap<String, Integer> groupingMap = new HashMap<String, Integer>();
 		try {
 			rLock.lock();
-			trades.entrySet().stream().forEach(e -> groupingMap.compute(e.getKey().getModel(),
-					(k, v) -> v == null ? e.getValue().size() : v + e.getValue().size()));
+			trades.entrySet().stream().forEach(e -> groupingMap.compute(e.getKey().getModel(), (k, v) -> v == null ? e.getValue().size() : v + e.getValue().size()));
 		} finally {
 			rLock.unlock();
-		}
-		
-		rLock.lock();		
-		
+		}		
 		TreeMap<Integer, List<String>> modelsMap = new TreeMap<Integer, List<String>>(Comparator.reverseOrder());
 		
-		groupingMap.entrySet().stream().forEach(e -> {
-			modelsMap.computeIfAbsent(e.getValue(), v -> new LinkedList<String>()).add(e.getKey());
-		});
+		groupingMap.entrySet().stream().forEach(e -> { modelsMap.computeIfAbsent(e.getValue(), v -> new LinkedList<String>()).add(e.getKey()); });
 		var res = modelsMap.firstEntry().getValue();
 		log.debug("mostPopularModels: returned: {}", res);
 		return res;
