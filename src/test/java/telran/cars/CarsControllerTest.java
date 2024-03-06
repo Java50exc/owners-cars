@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -20,12 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.PositiveOrZero;
 import telran.cars.dto.*;
 import static telran.cars.api.ValidationConstants.*;
 import telran.cars.exceptions.NotFoundException;
@@ -52,9 +47,9 @@ class CarsControllerTest {
 	CarsService carsService;
 	@Autowired //for injection of MockMvc from Application Context
 	MockMvc mockMvc;
-	CarDto carDto = new CarDto(CAR_NUMBER, "model", 2000, "company", "color", 0, CarState.NEW);
-	CarDto carDto1 = new CarDto("car123", "mode123", 2000, "company", "color", 0, CarState.NEW);
-	CarDto carDtoMissingFields = new CarDto(null, null, null, null, null, null, null);
+	CarDto carDto = new CarDto(CAR_NUMBER, "model", 2000, "color", 0, CarState.NEW);
+	CarDto carDto1 = new CarDto("car123", "mode123", 2000, "color", 0, CarState.NEW);
+	CarDto carDtoMissingFields = new CarDto(null, null, null, null, null, null);
 	
 	@Autowired //for injection of ObjectMapper from Application context
 	ObjectMapper mapper; //object for getting JSON from object and object from JSON
@@ -69,10 +64,12 @@ class CarsControllerTest {
 	PersonDto personAllFieldsMissing = new PersonDto(null, null, null, null);
 	TradeDealDto tradeDealWrongCarNumber = new TradeDealDto(WRONG_CAR_NUMBER, PERSON_ID, LocalDate.now());
 	TradeDealDto tradeDealWrongId = new TradeDealDto(CAR_NUMBER, -10l, LocalDate.now());
+	TradeDealDto tradeDealWrongDate = new TradeDealDto(CAR_NUMBER, PERSON_ID, LocalDate.now().plusDays(1));
 	TradeDealDto tradeDealAllFieldsMissing = new TradeDealDto(null,null, null);
 	private String[] expectedCarMissingFieldsMessages = {
 			MISSING_CAR_MODEL_MESSAGE,
-			MISSING_CAR_NUMBER_MESSAGE
+			MISSING_CAR_NUMBER_MESSAGE,
+			MISSING_CAR_YEAR_MESSAGE
 	};
 	private String[] expectedPersonMissingFieldsMessages = {
 		MISSING_BIRTH_DATE_MESSAGE,
@@ -282,6 +279,10 @@ class CarsControllerTest {
 	@Test
 	void purchaseWrongPersonIdTest() throws Exception {
 		purchaseWrongData(tradeDealWrongId, WRONG_MIN_PERSON_ID_VALUE);
+	}
+	@Test
+	void purchaseWrongDateTest() throws Exception {
+		purchaseWrongData(tradeDealWrongDate, WRONG_TRADE_DEAL_DATE);
 	}
 	@Test
 	void addCarMissingFields() throws Exception {
