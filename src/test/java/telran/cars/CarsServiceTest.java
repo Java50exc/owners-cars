@@ -15,8 +15,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.jdbc.Sql;
 
 import telran.cars.dto.*;
+import telran.cars.exceptions.CarNotFoundException;
+import telran.cars.exceptions.IllegalCarsStateException;
 import telran.cars.exceptions.IllegalPersonsStateException;
 import telran.cars.exceptions.NotFoundException;
+import telran.cars.exceptions.PersonNotFoundException;
+import telran.cars.exceptions.TradeDealIllegalStateException;
 import telran.cars.repo.ModelRepo;
 import telran.cars.service.CarsService;
 import telran.cars.service.model.ModelYear;
@@ -48,7 +52,7 @@ class CarsServiceTest {
 	
 	CarDto car1 = new CarDto(CAR_NUMBER_1, MODEL1, 2000, null, null, null);
 	CarDto car2 = new CarDto(CAR_NUMBER_2, MODEL1, 2000, null, null, null);
-	CarDto car3 = new CarDto(CAR_NUMBER_3, MODEL2, 2000, null, null, null);
+	CarDto car3 = new CarDto(CAR_NUMBER_3, MODEL2, 2020, null, null, null);
 	CarDto car4 = new CarDto(CAR_NUMBER_4, MODEL2, 2000, null, null, null);
 	CarDto car5 = new CarDto(CAR_NUMBER_5, MODEL3, 2000, null, null, null);
 	PersonDto personDto = new PersonDto(PERSON_ID_NOT_EXISTS, NAME1, BIRTH_DATE_1, EMAIL1);
@@ -71,10 +75,10 @@ class CarsServiceTest {
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-	@Disabled
+//	@Disabled
 	void testAddPerson() {
 		assertEquals(personDto, carsService.addPerson(personDto));
-		assertThrowsExactly(IllegalStateException.class,
+		assertThrowsExactly(IllegalPersonsStateException.class,
 				()->carsService.addPerson(personDto1));
 		List<CarDto> cars = carsService.getOwnerCars(personDto.id());
 		assertTrue(cars.isEmpty());
@@ -84,55 +88,56 @@ class CarsServiceTest {
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testAddCar() {
 		assertEquals(car3, carsService.addCar(car3));
-		assertThrowsExactly(IllegalStateException.class,
+		assertThrowsExactly(IllegalCarsStateException.class,
 				()->carsService.addCar(car1));
-		PersonDto person = carsService.getCarOwner(CAR_NUMBER_3);
-		assertNull(person);
+		assertThrowsExactly(PersonNotFoundException.class, ()->carsService.getCarOwner(CAR_NUMBER_3));
+
 	}
 
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testUpdatePerson() {
 		PersonDto personUpdated = new PersonDto(PERSON_ID_1, NAME1, BIRTH_DATE_1, NEW_EMAIL);
 		assertEquals(personUpdated, carsService.updatePerson(personUpdated));
 		assertEquals(personUpdated, carsService.getCarOwner(CAR_NUMBER_1));
-		assertThrowsExactly(NotFoundException.class,
+		assertThrowsExactly(PersonNotFoundException.class,
 				() -> carsService.updatePerson(personDto));
 	}
 
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testDeletePerson() {
 		List<CarDto> cars = carsService.getOwnerCars(PERSON_ID_1);
 		assertEquals(personDto1, carsService.deletePerson(PERSON_ID_1));
-		assertThrowsExactly(NotFoundException.class, () -> carsService.deletePerson(PERSON_ID_1));
-		cars.forEach(c -> assertNull(carsService.getCarOwner(c.number())));
+		assertThrowsExactly(PersonNotFoundException.class, () -> carsService.deletePerson(PERSON_ID_1));
+		cars.forEach(c -> assertThrowsExactly(PersonNotFoundException.class, () -> carsService.getCarOwner(c.number())));
 	}
 
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testDeleteCar() {
 		Long id = carsService.getCarOwner(CAR_NUMBER_1).id();
 		assertEquals(car1, carsService.deleteCar(CAR_NUMBER_1));
-		assertThrowsExactly(NotFoundException.class, () -> carsService.deleteCar(CAR_NUMBER_1));
+		assertThrowsExactly(CarNotFoundException.class, () -> carsService.deleteCar(CAR_NUMBER_1));
 		assertFalse(carsService.getOwnerCars(id).contains(car1));
 	}
 
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testPurchaseNewCarOwner() {
-		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1, PERSON_ID_2, null);
+		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1, PERSON_ID_2, "2000-05-05");
+
 		assertEquals(tradeDeal, carsService.purchase(tradeDeal));
 		assertEquals(personDto2, carsService.getCarOwner(CAR_NUMBER_1));
 		assertFalse(carsService.getOwnerCars(PERSON_ID_1).contains(car1));
@@ -142,50 +147,50 @@ class CarsServiceTest {
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testPurchaseNotFound() {
 		TradeDealDto tradeDealCarNotFound = new TradeDealDto(CAR_NUMBER_3, PERSON_ID_1, null);
 		TradeDealDto tradeDealOwnerNotFound = new TradeDealDto(CAR_NUMBER_1,
 				PERSON_ID_NOT_EXISTS, null);
-		assertThrowsExactly(NotFoundException.class, () -> carsService.purchase(tradeDealOwnerNotFound));
-		assertThrowsExactly(NotFoundException.class, () -> carsService.purchase(tradeDealCarNotFound));
+		assertThrowsExactly(PersonNotFoundException.class, () -> carsService.purchase(tradeDealOwnerNotFound));
+		assertThrowsExactly(CarNotFoundException.class, () -> carsService.purchase(tradeDealCarNotFound));
 		
 	}
 	@Test
 	//FIXME
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testPurchaseNoCarOwner() {
-		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1,null, null);
+		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1,null, "2000-05-05");
 		assertEquals(tradeDeal, carsService.purchase(tradeDeal));
 		assertFalse(carsService.getOwnerCars(PERSON_ID_1).contains(car1));
-		assertNull(carsService.getCarOwner(CAR_NUMBER_1));
+		assertThrowsExactly(PersonNotFoundException.class, () -> carsService.getCarOwner(CAR_NUMBER_1));
 	}
 	@Test
 	//HW #63 write test, take out @Disabled
-		@Disabled
+//		@Disabled
 	void testPurchaseSameOwner() {
-		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1,PERSON_ID_1, null);
-		assertThrowsExactly(IllegalStateException.class,
+		TradeDealDto tradeDeal = new TradeDealDto(CAR_NUMBER_1,PERSON_ID_1, "2000-05-05");
+		assertThrowsExactly(TradeDealIllegalStateException.class,
 				() -> carsService.purchase(tradeDeal));
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	void testGetOwnerCars() {
 		List<CarDto> cars = carsService.getOwnerCars(PERSON_ID_1);
 		assertEquals(1, cars.size());
 		assertEquals(car1, cars.get(0));
-		assertThrowsExactly(NotFoundException.class,
+		assertThrowsExactly(PersonNotFoundException.class,
 				() -> carsService.getOwnerCars(PERSON_ID_NOT_EXISTS));
 	}
 
 	@Test
-	@Disabled
+//	@Disabled
 	void testGetCarOwner() {
 		PersonDto ownerActual = carsService.getCarOwner(CAR_NUMBER_1);
 		assertEquals(personDto1, ownerActual);
-		assertThrowsExactly(NotFoundException.class, () -> carsService.getCarOwner(CAR_NUMBER_3));
+		assertThrowsExactly(CarNotFoundException.class, () -> carsService.getCarOwner(CAR_NUMBER_3));
 	}
 	@Test
 	@Disabled

@@ -7,4 +7,5 @@ String PERSON_NOT_FOUND = "Person not found";
 String MODEL_NOT_FOUND = "Model not found";
 String CAR_NOT_FOUND = "Car not found";
 String SAME_CAR_OWNER = "Same car owner";
+String MODEL_ALREADY_EXISTS = "Model already exists";
 }

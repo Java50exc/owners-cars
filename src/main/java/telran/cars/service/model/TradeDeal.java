@@ -2,8 +2,10 @@ package telran.cars.service.model;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Entity
+@NoArgsConstructor
 @Table(name = "trade_deals")
 public class TradeDeal {
 	@Id
