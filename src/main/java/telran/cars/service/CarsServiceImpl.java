@@ -146,6 +146,7 @@ public class CarsServiceImpl implements CarsService {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<ModelNameAmount> mostPopularModelNames(int nModels) {
 		List<ModelNameAmount> res = modelRepo.findMostPopularModelNames(nModels);
 		res.forEach(mn -> log.debug("model name is {}, number of cars {}",
@@ -154,14 +155,14 @@ public class CarsServiceImpl implements CarsService {
 	}
 
 	@Override
-	/**
-	 * returns count of trade deals for a given 'modelName'
-	 * at a given year / month
-	 * Try to apply only interface method name without @Query annotation
-	 */
+	@Transactional(readOnly=true)
 	public long countTradeDealAtMonthModel(String modelName, int month, int year) {
-		// TODO Auto-generated method stub
-		return 0;
+		log.debug("countTradeDealAtMonthModel: received data {}, year {}, month {}", modelName, year, month);
+		LocalDate startDate = LocalDate.of(year, month, 1);
+		LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+		var res = tradeDealRepo.findByCarModelModelYearNameAndDateBetween(modelName, startDate, endDate);
+		log.debug("countTradeDealAtMonthModel: {}", res.size());
+		return res.size();
 	}
 
 	@Override
@@ -171,6 +172,8 @@ public class CarsServiceImpl implements CarsService {
 	 * owners of which have an age in a given range
 	 */
 	public List<ModelNameAmount> mostPopularModelNameByOwnerAges(int nModels, int ageFrom, int ageTo) {
+		
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
