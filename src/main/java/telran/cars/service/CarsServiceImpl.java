@@ -178,8 +178,7 @@ public class CarsServiceImpl implements CarsService {
 	 * returns one most popular color of a given model
 	 */
 	public String oneMostPopularColorModel(String model) {
-		// TODO Auto-generated method stub
-		return null;
+		return carRepo.oneMostPopularColorModel(model);
 	}
 
 	@Override

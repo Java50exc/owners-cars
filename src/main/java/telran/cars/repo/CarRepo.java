@@ -22,11 +22,11 @@ public interface CarRepo extends JpaRepository<Car, String> {
 
 	@Query(value = """
 			select color from cars
-			where model=:model""", nativeQuery = true)
-	List<ModelNameAmount> oneMostPopularColorModel(String model);
+			where model=:model
+			group by color
+			order by count(*) desc
+			limit 1""", nativeQuery = true)
+	String oneMostPopularColorModel(String model);
 
-//public String oneMostPopularColorModel(String model) {
-//	// TODO Auto-generated method stub
-//	return null;
-//}
+
 }
