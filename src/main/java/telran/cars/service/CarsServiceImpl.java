@@ -166,16 +166,11 @@ public class CarsServiceImpl implements CarsService {
 	}
 
 	@Override
-	/**
-	 * returns list of a given number of most popular (most cars amount)
-	 *  model names and appropriate amounts of the cars,
-	 * owners of which have an age in a given range
-	 */
 	public List<ModelNameAmount> mostPopularModelNameByOwnerAges(int nModels, int ageFrom, int ageTo) {
+		LocalDate dateFrom = LocalDate.now().minusYears(ageFrom + 1).plusDays(1);
+		LocalDate dateTo = LocalDate.now().minusYears(ageTo);
 		
-		
-		// TODO Auto-generated method stub
-		return null;
+		return carRepo.mostPopularModelNameByOwnerAges(nModels, dateFrom, dateTo);
 	}
 
 	@Override

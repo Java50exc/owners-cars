@@ -13,7 +13,7 @@ public interface ModelRepo extends JpaRepository<Model, ModelYear> {
 		+ " on cars.car_number=td.car_number group by model_name "
 		+ " having count(*) = (select max(count) from "
 		+ "(select count(*) as count from cars join trade_deals "
-		+ " on cars.car_number = trade_deals.car_number)) ", nativeQuery=true) //just SQL query
+		+ " on cars.car_number = trade_deals.car_number group by model_name)) ", nativeQuery=true) //just SQL query
 	List<String> findMostSoldModelNames();
 @Query(value="select c.model_name as name, count(*) as amount "
 		+ "from cars c group by c.model_name order by count(*) desc limit :nModels", nativeQuery=true)
